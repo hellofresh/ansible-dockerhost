@@ -1,0 +1,19 @@
+---
+
+- name: Ensure composer dir exists
+  file: 
+    path="{{ docker_compose_dir }}"
+    mode=0755
+    state="directory"
+
+- name: Download composer 
+  get_url: 
+    url="{{ docker_compose_url }}"
+    dest="{{ docker_compose_dir }}/{{ docker_compose_file }}"
+    mode=0755
+
+- name: Link docker compose
+  file: 
+    src="{{ docker_compose_dir }}/{{ docker_compose_file }}"
+    dest="/usr/local/bin/docker-compose"
+    state="link"

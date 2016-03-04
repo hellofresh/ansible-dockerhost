@@ -1,0 +1,28 @@
+---
+
+- name: Ensure apt works with HTTPS and certificates are installed and kernel extrax
+  apt:
+    pkg="{{ item }}"
+    state="installed"
+    update_cache="yes"
+    cache_valid_time=3600
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - "linux-image-extra-{{ ansible_kernel }}"
+
+- name: Add apt repo GPG 
+  apt_key:
+    keyserver="{{ dockerhost_keyserver }}"
+    id="{{ dockerhost_id }}"
+
+- name: Add docker apt repo
+  apt_repository: 
+    repo="deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_lsb.codename }} main"
+    update_cache="yes"
+
+- name: Purge the old repo (lxc-docker)
+  apt:
+    pkg="lxc-docker"
+    state="absent"
+    purge="true"

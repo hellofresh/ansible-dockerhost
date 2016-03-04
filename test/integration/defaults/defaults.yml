@@ -1,0 +1,9 @@
+---
+
+- name         : Default
+  hosts        : "all"
+  gather_facts : True
+  become       : True
+  connection   : "{{ kitchen_connection | default('local') }}"
+  roles        :
+                 - "ansible-dockerhost"

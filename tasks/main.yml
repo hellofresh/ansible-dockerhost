@@ -1,0 +1,26 @@
+---
+
+#https://docs.docker.com/engine/installation/linux/ubuntulinux/
+
+- name: Add docker group
+  group: 
+    name="{{ dockerhost_group }}"
+    system="True"
+    state="present"
+
+- name: Include apt tasks
+  include: apt.yml
+
+- name: Install docker engine
+  apt:
+    pkg="docker-engine"
+
+- name: Include composer
+  include: composer.yml
+  when: docker_compose_install
+
+- name: Ensure docker is running and starts by default
+  service: 
+    name="docker"
+    state="started"
+    enabled=True

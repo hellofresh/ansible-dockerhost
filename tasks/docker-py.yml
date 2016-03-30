@@ -1,0 +1,5 @@
+---
+
+- name: Install docker-py Python module
+  pip:
+    name="docker-py"

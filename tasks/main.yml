@@ -11,6 +11,10 @@
 - name: Include apt tasks
   include: apt.yml
 
+- name: Include docker-py
+  include: docker-py.yml
+  when: docker_install_py_module
+
 - name: Install docker engine
   apt:
     pkg="docker-engine"

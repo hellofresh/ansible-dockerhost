@@ -1,12 +1,12 @@
 ---
 
-- name: Ensure composer dir exists
+- name: Ensure docker compose dir exists
   file: 
     path="{{ docker_compose_dir }}"
     mode=0755
     state="directory"
 
-- name: Download composer 
+- name: Download docker compose
   get_url: 
     url="{{ docker_compose_url }}"
     dest="{{ docker_compose_dir }}/{{ docker_compose_file }}"

@@ -19,9 +19,16 @@
   apt:
     pkg="docker-engine"
 
-- name: Include composer
-  include: composer.yml
+- name: Include docker-compose.yml
+  include: docker-compose.yml
   when: docker_compose_install
+
+- name: Include docker conf
+  template: 
+    src=docker_conf_ubuntu_14.04.j2
+    dest=/etc/default/docker
+  notify: 
+    - restart docker
 
 - name: Ensure docker is running and starts by default
   service: 

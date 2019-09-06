@@ -1,6 +1,6 @@
 ---
 
-dockerhost_keyserver                : "hkp://p80.pool.sks-keyservers.net:80"
+dockerhost_keyserver                : "hkps://keys.openpgp.org"
 dockerhost_id                       : "58118E89F3A912897C070ADBF76221572C52609D"
 
 docker_compose_file                 : "docker-compose-Linux-{{ ansible_userspace_architecture }}-{{ docker_compose_version }}"

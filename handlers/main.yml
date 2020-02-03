@@ -1,6 +1,11 @@
 ---
 - name: restart docker
   service: 
-    name="docker"
-    state="restarted"
+    name: docker
+    state: restarted
 
+- name: restart docker systemd
+  systemd: 
+    name: docker
+    state: restarted
+    daemon_reload: True

@@ -2,16 +2,14 @@
 # meta file for ansible
 galaxy_info:
   author: Adham Helal
-  description: Install manage firefox
+  description: Install manage docker daemon
   license: MIT
   min_ansible_version: 1.9
   platforms:
   - name: Ubuntu
     versions:
-    - all
-  - name: Debian
-    versions:
-    - all
+    - 18.04
+    - 16.04
   categories:
     - web
 dependencies: []

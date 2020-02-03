@@ -4,11 +4,11 @@
 
 - name: Add docker group
   group: 
-    name="{{ dockerhost_group }}"
-    system="True"
-    state="present"
+    name: "{{ dockerhost_group }}"
+    system: True
+    state: present
 
-- name: Include apt tasks
+- name: Apt tasks
   include: apt.yml
 
 - name: Include docker-py
@@ -17,21 +17,32 @@
 
 - name: Install docker engine
   apt:
-    pkg="docker-engine"
+    pkg: "docker-ce"
 
 - name: Include docker-compose.yml
   include: docker-compose.yml
   when: docker_compose_install
 
-- name: Include docker conf
+- name: Create docker conf
   template: 
-    src=docker_conf_ubuntu_14.04.j2
-    dest=/etc/default/docker
+    src: docker_conf.j2
+    dest: /etc/default/docker
+  when: ansible_service_mgr != 'systemd'
   notify: 
-    - restart docker
+  - restart docker
+
+- name: Create docker systemd unit file
+  template: 
+    src: docker_systemd_service.j2
+    dest: /etc/systemd/system/docker.service
+  when: ansible_service_mgr == 'systemd'
+  notify: 
+  - restart docker systemd
+
+- meta: flush_handlers
 
 - name: Ensure docker is running and starts by default
   service: 
-    name="docker"
-    state="started"
-    enabled=True
+    name: docker
+    state: started
+    enabled: True

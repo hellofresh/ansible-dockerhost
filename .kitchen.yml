@@ -1,7 +1,7 @@
 ---
 driver                    :
     name                  : <%= if ENV['TRAVIS'] then 'localhost' else 'vagrant' end  %>
-    box                   : "ubuntu/trusty64"
+    box                   : "ubuntu/bionic64"
     customize             :
          cpus             : 2
          memory           : 2048 

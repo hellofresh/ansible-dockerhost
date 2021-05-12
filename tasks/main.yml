@@ -3,7 +3,7 @@
 #https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
 - name: Add docker group
-  group: 
+  group:
     name: "{{ dockerhost_group }}"
     system: True
     state: present
@@ -24,25 +24,36 @@
   when: docker_compose_install
 
 - name: Create docker conf
-  template: 
+  template:
     src: docker_conf.j2
     dest: /etc/default/docker
   when: ansible_service_mgr != 'systemd'
-  notify: 
+  notify:
   - restart docker
 
 - name: Create docker systemd unit file
-  template: 
+  template:
     src: docker_systemd_service.j2
     dest: /etc/systemd/system/docker.service
   when: ansible_service_mgr == 'systemd'
-  notify: 
+  notify:
+  - restart docker systemd
+
+- name: Create docker daemon config file
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+  notify:
   - restart docker systemd
 
 - meta: flush_handlers
 
 - name: Ensure docker is running and starts by default
-  service: 
+  service:
     name: docker
     state: started
     enabled: True
+
+- name: Include cadvisor
+  include: cadvisor.yml
+  when: dockerhost_install_cadvisor

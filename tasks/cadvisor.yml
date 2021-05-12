@@ -1,0 +1,75 @@
+---
+
+- name: Create binary directory
+  file:
+    path: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}"
+    state: directory
+    owner: "{{ dockerhost_prometheus_exporters_common_user }}"
+    group: "{{ dockerhost_prometheus_exporters_common_group }}"
+
+- name: download cadvisor binary
+  get_url:
+    url: "{{ dockerhost_cadvisor_download_url }}"
+    dest: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}/cadvisor"
+    mode: "0755"
+
+- name: create symlink to the current release
+  file:
+    src: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}"
+    path: "{{ dockerhost_prometheus_exporters_common_root_dir }}/cadvisor_current"
+    state: link
+
+- name: create systemd service unit
+  template:
+    src: cadvisor/systemd-unit.j2
+    dest: /etc/systemd/system/cadvisor.service
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == 'systemd'
+  notify:
+    - reenable cadvisor service
+    - restart cadvisor
+
+- name: get upstart version
+  command: initctl version
+  when: ansible_service_mgr == 'upstart'
+  register: upstart_version
+
+- name: create init service unit
+  template:
+    src: cadvisor/upstart.j2
+    dest: /etc/init/cadvisor.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == 'upstart'
+  notify:
+    - reinit cadvisor
+    - restart cadvisor
+
+- name: create sysvinit service unit
+  template:
+    src: cadvisor/init.j2
+    dest: /etc/init.d/cadvisor
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_service_mgr == 'sysvinit'
+  notify:
+    - restart cadvisor
+
+- name: disable node exporter service
+  when: dockerhost_disable_prometheus_node_exporter|bool
+  service:
+    name: prometheus-node-exporter
+    state: stopped
+    enabled: no
+
+- meta: flush_handlers
+
+- name: ensure cadvisor is running
+  service:
+    name: cadvisor
+    enabled: yes
+    state: started

@@ -1,9 +1,29 @@
 ---
 
-dockerhost_group                : "docker"
-docker_compose_version          : "1.25.3"
-docker_compose_dir              : "/opt/docker_compose"
-docker_compose_install          : True
-docker_install_py_module        : False
+dockerhost_group                                : "docker"
+docker_compose_version                          : "1.29.1"
+docker_compose_dir                              : "/opt/docker_compose"
+docker_compose_install                          : True
+docker_install_py_module                        : False
 
-docker_gpg_url                  : https://download.docker.com/linux/ubuntu/gpg
+docker_gpg_url                                  : https://download.docker.com/linux/ubuntu/gpg
+
+dockerhost_daemon_config                        : {}
+
+dockerhost_install_cadvisor                     : True
+dockerhost_prometheus_exporters_common_user     : prometheus
+dockerhost_prometheus_exporters_common_group    : prometheus
+
+dockerhost_prometheus_exporters_common_root_dir : /opt/prometheus/exporters
+dockerhost_prometheus_exporters_common_dist_dir : "{{ dockerhost_prometheus_exporters_common_root_dir }}/dist"
+dockerhost_prometheus_exporters_common_conf_dir : "/etc/prometheus/exporters"
+
+dockerhost_cadvisor_version                     : v0.37.5
+dockerhost_cadvisor_release_name                : "cadvisor-{{ dockerhost_cadvisor_version }}.linux-amd64"
+dockerhost_cadvisor_config_flags                : {}
+dockerhost_cadvisor_config_docker_endpoint      : unix:///run/docker.sock
+dockerhost_cadvisor_config_listen_port          : 8100
+dockerhost_cadvisor_config_listen_interface     : 0.0.0.0
+
+# Since cAdvisor can potentially replace node exporter, add an option to disable node exporter
+dockerhost_disable_prometheus_node_exporter     : False

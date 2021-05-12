@@ -6,4 +6,4 @@ dockerhost_id                       : "7EA0A9C3F273FCD8"
 docker_compose_file                 : "docker-compose-Linux-{{ ansible_userspace_architecture }}-{{ docker_compose_version }}"
 docker_compose_url                  : "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-{{ ansible_userspace_architecture }}"
 
-cadvisor_download_url               : "https://github.com/google/cadvisor/releases/download/{{ cadvisor_version }}/cadvisor"
+cadvisor_download_url               : "https://github.com/google/cadvisor/releases/download/{{ dockerhost_cadvisor_version }}/cadvisor"

@@ -8,13 +8,13 @@
 
 ### BEGIN INIT INFO
 # Provides: cadvisor
-# Required-Start: 
-# Required-Stop: 
-# Should-Start: 
-# Should-Stop: 
-# Default-Start: 
-# Default-Stop: 
-# Short-Description: 
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:
+# Default-Stop:
+# Short-Description:
 # Description: Manage service cadvisor
 ### END INIT INFO
 
@@ -35,7 +35,7 @@ start() {
     #[ -f $config ] || exit 6
     echo -n $"Starting $prog: "
     # if not running, start it up here, usually something like "daemon $exec"
-    daemon {{ prometheus_exporters_common_root_dir }}/cadvisor_current/cadvisor --docker="{{ cadvisor_config_docker_endpoint }}" --listen_ip="{{ cadvisor_config_listen_interface }}" --port="{{ cadvisor_config_listen_port }}" {% for flag, flag_value in cadvisor_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+    daemon {{ dockerhost_prometheus_exporters_common_root_dir }}/cadvisor_current/cadvisor --docker="{{ dockerhost_cadvisor_config_docker_endpoint }}" --listen_ip="{{ dockerhost_cadvisor_config_listen_interface }}" --port="{{ dockerhost_cadvisor_config_listen_port }}" {% for flag, flag_value in dockerhost_cadvisor_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
     echo
     [ $retval -eq 0 ] && touch $lockfile
     return $retval

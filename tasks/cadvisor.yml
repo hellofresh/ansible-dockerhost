@@ -9,7 +9,7 @@
 
 - name: download cadvisor binary
   get_url:
-    url: "{{ cadvisor_download_url }}"
+    url: "{{ dockerhost_cadvisor_download_url }}"
     dest: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}/cadvisor"
     mode: "0755"
 

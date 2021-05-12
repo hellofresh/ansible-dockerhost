@@ -1,0 +1,15 @@
+[Unit]
+Description=cadvisor
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart={{ dockerhost_prometheus_exporters_common_root_dir }}/cadvisor_current/cadvisor --docker="{{ dockerhost_cadvisor_config_docker_endpoint }}" --listen_ip="{{ dockerhost_cadvisor_config_listen_interface }}" --port="{{ dockerhost_cadvisor_config_listen_port }}" {% for flag, flag_value in dockerhost_cadvisor_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+
+SyslogIdentifier=cadvisor
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

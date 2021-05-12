@@ -8,8 +8,10 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
+    - 20.04
     - 18.04
     - 16.04
   categories:
-    - web
-dependencies: []
+  - web
+dependencies:
+- UnderGreen.prometheus-exporters-common

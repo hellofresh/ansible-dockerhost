@@ -1,0 +1,16 @@
+description "cadvisor"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+{% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
+setuid root
+setgid root
+{% endif %}
+
+script
+  exec >> "{{ prometheus_exporters_common_log_dir }}/cadvisor.log"
+  exec 2>&1
+  exec {{ prometheus_exporters_common_root_dir }}/cadvisor_current/cadvisor --docker="{{ cadvisor_config_docker_endpoint }}" --listen_ip="{{ cadvisor_config_listen_interface }}" --port="{{ cadvisor_config_listen_port }}" {% for flag, flag_value in cadvisor_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+
+end script

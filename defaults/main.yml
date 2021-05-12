@@ -1,11 +1,29 @@
 ---
 
-dockerhost_group                : "docker"
-docker_compose_version          : "1.25.3"
-docker_compose_dir              : "/opt/docker_compose"
-docker_compose_install          : True
-docker_install_py_module        : False
+dockerhost_group                     : "docker"
+docker_compose_version               : "1.25.3"
+docker_compose_dir                   : "/opt/docker_compose"
+docker_compose_install               : True
+docker_install_py_module             : False
 
-docker_gpg_url                  : https://download.docker.com/linux/ubuntu/gpg
+docker_gpg_url                       : https://download.docker.com/linux/ubuntu/gpg
 
-docker_daemon_config            : {}
+docker_daemon_config                 : {}
+
+install_cadvisor                     : True
+prometheus_exporters_common_user     : prometheus
+prometheus_exporters_common_group    : prometheus
+
+prometheus_exporters_common_root_dir : /opt/prometheus/exporters
+prometheus_exporters_common_dist_dir : "{{ prometheus_exporters_common_root_dir }}/dist"
+prometheus_exporters_common_conf_dir : "/etc/prometheus/exporters"
+
+cadvisor_version                     : v0.37.5
+cadvisor_release_name                : "cadvisor-{{ cadvisor_version }}.linux-amd64"
+cadvisor_config_flags                : {}
+cadvisor_config_docker_endpoint      : unix:///run/docker.sock
+cadvisor_config_listen_port          : 8100
+cadvisor_config_listen_interface     : 0.0.0.0
+
+# Since cAdvisor can potentially replace node exporter, add an option to disable node exporter
+disable_prometheus_node_exporter     : False

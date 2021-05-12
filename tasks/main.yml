@@ -53,3 +53,7 @@
     name: docker
     state: started
     enabled: True
+
+- name: Include cadvisor
+  include: cadvisor.yml
+  when: install_cadvisor

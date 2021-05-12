@@ -2,7 +2,7 @@
 
 - name: Create binary directory
   file:
-    path: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ cadvisor_release_name }}"
+    path: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}"
     state: directory
     owner: "{{ dockerhost_prometheus_exporters_common_user }}"
     group: "{{ dockerhost_prometheus_exporters_common_group }}"
@@ -10,12 +10,12 @@
 - name: download cadvisor binary
   get_url:
     url: "{{ cadvisor_download_url }}"
-    dest: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ cadvisor_release_name }}/cadvisor"
+    dest: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}/cadvisor"
     mode: "0755"
 
 - name: create symlink to the current release
   file:
-    src: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ cadvisor_release_name }}"
+    src: "{{ dockerhost_prometheus_exporters_common_dist_dir }}/{{ dockerhost_cadvisor_release_name }}"
     path: "{{ dockerhost_prometheus_exporters_common_root_dir }}/cadvisor_current"
     state: link
 

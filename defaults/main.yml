@@ -19,7 +19,7 @@ dockerhost_prometheus_exporters_common_dist_dir : "{{ dockerhost_prometheus_expo
 dockerhost_prometheus_exporters_common_conf_dir : "/etc/prometheus/exporters"
 
 dockerhost_cadvisor_version                     : v0.37.5
-cadvisor_release_name                           : "cadvisor-{{ dockerhost_cadvisor_version }}.linux-amd64"
+dockerhost_cadvisor_release_name                : "cadvisor-{{ dockerhost_cadvisor_version }}.linux-amd64"
 dockerhost_cadvisor_config_flags                : {}
 dockerhost_cadvisor_config_docker_endpoint      : unix:///run/docker.sock
 dockerhost_cadvisor_config_listen_port          : 8100

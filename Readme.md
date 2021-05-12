@@ -9,6 +9,7 @@ dockerhost_group                : "docker"
 docker_compose_version          : "1.25.3"
 docker_compose_dir              : "/opt/docker_compose"
 docker_compose_install          : True
+docker_daemon_config            : {}
 ```
 
 ## License

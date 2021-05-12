@@ -2,13 +2,12 @@
 
 - name: Ensure apt works with HTTPS and certificates are installed and kernel extrax
   apt:
-    pkg="{{ item }}"
-    state="present"
-    update_cache="yes"
-    cache_valid_time=3600
-  with_items:
+    pkg:
     - apt-transport-https
     - ca-certificates
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: Add apt repo GPG
   apt_key:
